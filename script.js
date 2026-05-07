@@ -447,12 +447,47 @@ function initContactForm() {
     }
   });
 
-  // Clear error on input
+  // Clear error on input + update preview
   ['name', 'email', 'message'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
       document.getElementById(id).classList.remove('invalid');
       document.getElementById(`${id}-error`).textContent = '';
     });
+  });
+
+  // Live preview
+  const preview        = document.getElementById('form-preview');
+  const previewName    = document.getElementById('preview-name');
+  const previewEmail   = document.getElementById('preview-email');
+  const previewMessage = document.getElementById('preview-message');
+
+  function updatePreview() {
+    const nameVal    = document.getElementById('name').value.trim();
+    const emailVal   = document.getElementById('email').value.trim();
+    const messageVal = document.getElementById('message').value.trim();
+
+    const hasContent = nameVal || emailVal || messageVal;
+    if (hasContent) {
+      preview.removeAttribute('hidden');
+      previewName.textContent    = nameVal    || '—';
+      previewEmail.textContent   = emailVal   || '—';
+      previewMessage.textContent = messageVal || '—';
+    } else {
+      preview.setAttribute('hidden', '');
+    }
+  }
+
+  ['name', 'email', 'message'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePreview);
+  });
+
+  // Clear preview on successful submit
+  form.addEventListener('submit', () => {
+    setTimeout(() => {
+      if (!document.getElementById('name').value) {
+        preview.setAttribute('hidden', '');
+      }
+    }, 100);
   });
 }
 
@@ -490,6 +525,68 @@ function initFadeIn() {
 function initCopyrightYear() {
   const el = document.getElementById('copyright-year');
   if (el) el.textContent = new Date().getFullYear();
+}
+
+/* =============================================
+   9. DYNAMIC BOOKINGS LIST
+   ============================================= */
+function initDynamicList() {
+  const input    = document.getElementById('order-input');
+  const addBtn   = document.getElementById('order-add-btn');
+  const list     = document.getElementById('order-list');
+  const emptyMsg = document.getElementById('order-empty');
+  if (!input || !addBtn || !list) return;
+
+  function addItem(text) {
+    const val = text.trim();
+    if (!val) return;
+
+    // Hide empty message
+    if (emptyMsg) emptyMsg.style.display = 'none';
+
+    // Create list item
+    const li     = document.createElement('li');
+    li.className = 'order-item';
+
+    const span     = document.createElement('span');
+    span.textContent = val;
+
+    const removeBtn     = document.createElement('button');
+    removeBtn.className = 'order-item-remove';
+    removeBtn.textContent = '✕';
+    removeBtn.setAttribute('aria-label', `Remove ${val}`);
+    removeBtn.addEventListener('click', () => {
+      li.remove();
+      // Show empty message if list is now empty
+      if (list.querySelectorAll('.order-item').length === 0 && emptyMsg) {
+        emptyMsg.style.display = '';
+      }
+    });
+
+    li.appendChild(span);
+    li.appendChild(removeBtn);
+    list.appendChild(li);
+
+    input.value = '';
+    input.focus();
+  }
+
+  // Add via button click
+  addBtn.addEventListener('click', () => addItem(input.value));
+
+  // Add via Enter key
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') addItem(input.value);
+  });
+
+  // Add via "Book Now" buttons on activity cards
+  document.querySelectorAll('.btn-activity[data-activity]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      addItem(`📅 ${btn.dataset.activity}`);
+      // Scroll to list
+      document.getElementById('order-list').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
 }
 
 /* =============================================
@@ -587,4 +684,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initCopyrightYear();
   initTypewriter();
   initThemeToggle();
+  initDynamicList();
 });
