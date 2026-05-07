@@ -134,41 +134,56 @@ function highlightNavOnScroll() {
 }
 
 /* =============================================
-   2. MENU FILTER
+   2. MENU FILTER & SEARCH
    ============================================= */
 function initMenuFilter() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const menuItems  = document.querySelectorAll('.menu-item');
+  const filterBtns  = document.querySelectorAll('.filter-btn');
+  const menuItems   = document.querySelectorAll('.menu-item');
+  const searchInput = document.getElementById('menu-search');
+  const noResults   = document.getElementById('no-results');
+
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const query = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    menuItems.forEach(item => {
+      const matchesFilter = activeFilter === 'all' || item.dataset.category === activeFilter;
+      const itemText      = item.textContent.toLowerCase();
+      const matchesSearch = query === '' || itemText.includes(query);
+      const visible       = matchesFilter && matchesSearch;
+
+      if (visible) {
+        item.classList.remove('hidden');
+        item.style.opacity   = '0';
+        item.style.transform = 'translateY(10px)';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            item.style.opacity    = '1';
+            item.style.transform  = 'translateY(0)';
+          });
+        });
+        visibleCount++;
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+
+    noResults.classList.toggle('visible', visibleCount === 0);
+  }
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Update active button
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-
-      menuItems.forEach(item => {
-        const match = filter === 'all' || item.dataset.category === filter;
-        // Animate out then hide / show
-        if (match) {
-          item.classList.remove('hidden');
-          // Trigger reflow for animation
-          item.style.opacity = '0';
-          item.style.transform = 'translateY(10px)';
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-              item.style.opacity = '1';
-              item.style.transform = 'translateY(0)';
-            });
-          });
-        } else {
-          item.classList.add('hidden');
-        }
-      });
+      activeFilter = btn.dataset.filter;
+      applyFilters();
     });
   });
+
+  searchInput.addEventListener('input', applyFilters);
 }
 
 /* =============================================

@@ -37,6 +37,7 @@
           </ul>
         </li>
         <li><a class="nav-link" href="#about">About</a></li>
+        <li><a class="nav-link" href="#activities">Activities</a></li>
         <li><a class="nav-link" href="#gallery">Gallery</a></li>
         <li><a class="nav-link" href="#testimonials">Reviews</a></li>
         <li><a class="nav-link" href="#contact">Contact</a></li>
@@ -62,6 +63,17 @@
         <h2 id="menu-heading" class="section-title">Our Menu</h2>
         <p class="section-subtitle">Rwandan beans, crafted with pride.</p>
 
+        <div class="search-bar-wrap">
+          <input 
+            type="search" 
+            id="menu-search" 
+            placeholder="Search menu items..." 
+            aria-label="Search menu items"
+            autocomplete="off"
+          />
+          <span class="search-icon" aria-hidden="true">🔍</span>
+        </div>
+
         <div class="filter-controls" role="group" aria-label="Filter menu by category">
           <button class="filter-btn active" data-filter="all">All</button>
           <button class="filter-btn" data-filter="espresso">Espresso Drinks</button>
@@ -70,6 +82,7 @@
         </div>
 
         <div id="menu-grid" class="menu-grid">
+          <p class="no-results" id="no-results" role="status">No items match your search.</p>
           <!-- Espresso Drinks -->
           <article class="menu-item" data-category="espresso">
             <div class="menu-item-icon">☕</div>
@@ -189,6 +202,66 @@
               <span class="stat-label">Awards Won</span>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ACTIVITIES ===== -->
+    <section id="activities" class="section fade-in-section" aria-labelledby="activities-heading">
+      <div class="container">
+        <h2 id="activities-heading" class="section-title">Experiences & Activities</h2>
+        <p class="section-subtitle">More than coffee — a journey into Rwandan culture.</p>
+
+        <div class="activities-grid">
+
+          <article class="activity-card">
+            <div class="activity-icon">☕</div>
+            <h3>Coffee Tasting</h3>
+            <p class="activity-desc">Explore the distinct flavour profiles of Rwanda's finest single-origin beans in a guided cupping session led by our head barista.</p>
+            <ul class="activity-details">
+              <li>⏱ 60 minutes</li>
+              <li>👥 Up to 8 guests</li>
+              <li>💰 RWF 8,000 / person</li>
+            </ul>
+            <button class="btn btn-activity">Book Now</button>
+          </article>
+
+          <article class="activity-card">
+            <div class="activity-icon">🎓</div>
+            <h3>Barista Workshop</h3>
+            <p class="activity-desc">Learn the art of espresso extraction, milk steaming, and latte art in our hands-on barista training session.</p>
+            <ul class="activity-details">
+              <li>⏱ 90 minutes</li>
+              <li>👥 Up to 6 guests</li>
+              <li>💰 RWF 15,000 / person</li>
+            </ul>
+            <button class="btn btn-activity">Book Now</button>
+          </article>
+
+          <article class="activity-card">
+            <div class="activity-icon">🏭</div>
+            <h3>Roastery Tour</h3>
+            <p class="activity-desc">Visit our Kimihurura roastery, see green beans transformed into your morning cup, and meet the team behind every roast.</p>
+            <ul class="activity-details">
+              <li>⏱ 45 minutes</li>
+              <li>👥 Up to 12 guests</li>
+              <li>💰 RWF 5,000 / person</li>
+            </ul>
+            <button class="btn btn-activity">Book Now</button>
+          </article>
+
+          <article class="activity-card">
+            <div class="activity-icon">🌱</div>
+            <h3>Farm Visit</h3>
+            <p class="activity-desc">Take a day trip to our partner farms in the Southern Province, meet the smallholder farmers, and pick fresh coffee cherries.</p>
+            <ul class="activity-details">
+              <li>⏱ Full day</li>
+              <li>👥 Up to 10 guests</li>
+              <li>💰 RWF 35,000 / person</li>
+            </ul>
+            <button class="btn btn-activity">Book Now</button>
+          </article>
+
         </div>
       </div>
     </section>
