@@ -187,8 +187,25 @@ function initMenuFilter() {
 }
 
 /* =============================================
-   3. ABOUT — Animated Stats Counter
+   3. ABOUT — Read More / Read Less & Stats Counter
    ============================================= */
+function initReadMore() {
+  const btn   = document.getElementById('read-more-btn');
+  const extra = document.getElementById('about-extra');
+  if (!btn || !extra) return;
+
+  btn.addEventListener('click', () => {
+    const isHidden = extra.hasAttribute('hidden');
+    if (isHidden) {
+      extra.removeAttribute('hidden');
+      btn.textContent = 'Read Less';
+    } else {
+      extra.setAttribute('hidden', '');
+      btn.textContent = 'Read More';
+    }
+  });
+}
+
 function initStatsCounter() {
   const statsSection = document.getElementById('about');
   const statNumbers  = document.querySelectorAll('.stat-number');
@@ -532,11 +549,35 @@ function initTypewriter() {
 }
 
 /* =============================================
+   11. LIGHT / DARK MODE TOGGLE
+   ============================================= */
+function initThemeToggle() {
+  const btn  = document.getElementById('theme-toggle');
+  if (!btn) return;
+
+  // Restore saved preference
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark-mode');
+    btn.textContent = '☀️';
+    btn.setAttribute('aria-label', 'Switch to light mode');
+  }
+
+  btn.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark-mode');
+    btn.textContent = isDark ? '☀️' : '🌙';
+    btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+}
+
+/* =============================================
    INIT
    ============================================= */
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initMenuFilter();
+  initReadMore();
   initStatsCounter();
   initGallery();
   initCarousel();
@@ -545,4 +586,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initFadeIn();
   initCopyrightYear();
   initTypewriter();
+  initThemeToggle();
 });

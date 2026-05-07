@@ -41,6 +41,9 @@
         <li><a class="nav-link" href="#gallery">Gallery</a></li>
         <li><a class="nav-link" href="#testimonials">Reviews</a></li>
         <li><a class="nav-link" href="#contact">Contact</a></li>
+        <li>
+          <button id="theme-toggle" aria-label="Switch to dark mode" title="Toggle light/dark mode">🌙</button>
+        </li>
       </ul>
     </nav>
   </header>
@@ -177,12 +180,13 @@
             beans on the continent, and we've made it our mission to showcase
             them.
           </p>
-          <p>
+          <p id="about-extra" hidden>
             We source directly from smallholder farmers across the Southern and
             Western Provinces, roast every batch in-house at our Kimihurura
             roastery, and train our baristas to specialty standard. <em>Ikawa</em>
             means "coffee" in Kinyarwanda — and for us, it means everything.
           </p>
+          <button id="read-more-btn" class="btn-read-more">Read More</button>
 
           <div class="stats-grid" aria-label="Coffee shop highlights">
             <div class="stat">
@@ -429,6 +433,14 @@
               ✅ Thanks! Your message has been sent. We'll be in touch soon.
             </div>
           </form>
+
+          <!-- Live preview -->
+          <div id="form-preview" class="form-preview" hidden>
+            <h4>Message Preview</h4>
+            <p><strong>From:</strong> <span id="preview-name">—</span></p>
+            <p><strong>Email:</strong> <span id="preview-email">—</span></p>
+            <p><strong>Message:</strong> <span id="preview-message">—</span></p>
+          </div>
         </div>
 
       </div>
